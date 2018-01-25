@@ -57,3 +57,23 @@ def SetReg(ea, reg, val):
             engine.ADDRESS_SPACE.update_flags(ea, ~engine.AddressSpace.ALT_CODE, 0)
     except engine.InvalidAddrException:
         log.exception("")
+
+def SetRegEx(ea, reg, val, tag):
+    if(engine.ADDRESS_SPACE.is_valid_addr(ea)):
+        SetReg(ea,reg,val)
+        engine.add_entrypoint(ea, False)
+        engine.analyze()
+
+def MakeComm(ea, comment):
+    if(engine.ADDRESS_SPACE.is_valid_addr(ea)):
+        engine.ADDRESS_SPACE.set_comment(ea, comment)
+
+def MakeFunction(ea, color):
+    if(engine.ADDRESS_SPACE.is_valid_addr(ea)):
+        engine.add_entrypoint(ea, True)
+    # TODO: use the color
+
+def MakeNameEx(ea, funcname, flags):
+    if(engine.ADDRESS_SPACE.is_valid_addr(ea)):
+        engine.ADDRESS_SPACE.make_label(funcname, ea)
+    # TODO: use the flags
